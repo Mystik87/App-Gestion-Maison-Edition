@@ -91,6 +91,14 @@ def create_utilisateur(
     return create(db, models.Utilisateur, values)
 
 
+def update_utilisateur(
+    db: Session,
+    utilisateur: models.Utilisateur,
+    data: schemas.UtilisateurCreate,
+) -> models.Utilisateur:
+    return update(db, utilisateur, data)
+
+
 def get_livre(db: Session, livre_id: int) -> models.Livre | None:
     return get_by_id(db, models.Livre, livre_id)
 
@@ -113,3 +121,13 @@ def create_livre(
     values["date_creation"] = datetime.now()
     values["statut"] = "disponible"
     return create(db, models.Livre, values)
+
+
+def update_livre(
+    db: Session,
+    livre: models.Livre,
+    data: schemas.LivreCreate,
+) -> models.Livre:
+    values = data.model_dump()
+    values.pop("stock", None)
+    return update(db, livre, values)

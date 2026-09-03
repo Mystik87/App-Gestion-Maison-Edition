@@ -30,3 +30,23 @@ def creer_utilisateur(
     db: Session = Depends(get_db),
 ):
     return crud.create_utilisateur(db, utilisateur)
+
+
+@router.put("/{utilisateur_id}", response_model=schemas.UtilisateurResponse)
+def modifier_utilisateur(
+    utilisateur_id: int,
+    utilisateur: schemas.UtilisateurCreate,
+    db: Session = Depends(get_db),
+):
+    utilisateur_existant = crud.get_utilisateur(db, utilisateur_id)
+    if utilisateur_existant is None:
+        raise HTTPException(status_code=404, detail="Utilisateur introuvable")
+    return crud.update_utilisateur(db, utilisateur_existant, utilisateur)
+
+
+@router.delete("/{utilisateur_id}", status_code=204)
+def supprimer_utilisateur(utilisateur_id: int, db: Session = Depends(get_db)):
+    utilisateur = crud.get_utilisateur(db, utilisateur_id)
+    if utilisateur is None:
+        raise HTTPException(status_code=404, detail="Utilisateur introuvable")
+    crud.delete(db, utilisateur)

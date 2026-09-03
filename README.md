@@ -72,8 +72,27 @@ backend/
 ## État actuel
 
 Les modèles SQLAlchemy, les schémas Pydantic et les opérations CRUD de base
-sont en place pour les utilisateurs et les livres. Les routes FastAPI et le
-point d'entrée de l'application restent à compléter.
+sont en place pour les utilisateurs et les livres. Les premiers endpoints
+FastAPI sont disponibles pour ces deux ressources.
+
+## Endpoints disponibles
+
+| Méthode | Endpoint | Description |
+| --- | --- | --- |
+| GET | `/health` | Vérifier que l'API fonctionne |
+| GET | `/utilisateurs` | Lister les utilisateurs |
+| GET | `/utilisateurs/{id}` | Obtenir un utilisateur |
+| POST | `/utilisateurs` | Créer un utilisateur |
+| PUT | `/utilisateurs/{id}` | Remplacer un utilisateur |
+| DELETE | `/utilisateurs/{id}` | Supprimer un utilisateur |
+| GET | `/livres` | Lister les livres |
+| GET | `/livres/{id}` | Obtenir un livre |
+| POST | `/livres` | Créer un livre |
+| PUT | `/livres/{id}` | Remplacer un livre |
+| DELETE | `/livres/{id}` | Supprimer un livre |
+
+La documentation interactive est disponible sur `/docs` lorsque le serveur
+est lancé.
 
 ## Prochaines étapes
 
