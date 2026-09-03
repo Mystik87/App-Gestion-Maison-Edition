@@ -1,0 +1,20 @@
+# Environnements virtuels
+.venv/
+venv/
+
+# Variables d'environnement
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# IDE
+.vscode/
+
+# Fichiers locaux
+*.log
