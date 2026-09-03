@@ -75,6 +75,14 @@ def get_utilisateur(db: Session, utilisateur_id: int) -> models.Utilisateur | No
     return get_by_id(db, models.Utilisateur, utilisateur_id)
 
 
+def get_utilisateur_by_email(
+    db: Session,
+    email: str,
+) -> models.Utilisateur | None:
+    statement = select(models.Utilisateur).where(models.Utilisateur.email == email)
+    return db.scalar(statement)
+
+
 def get_utilisateurs(
     db: Session,
     *,

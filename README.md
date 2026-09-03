@@ -49,10 +49,14 @@ DB_PORT=3307
 DB_NAME=gestion_maison_edition
 DB_USER=root
 DB_PASSWORD=
+JWT_SECRET_KEY=remplace_par_une_cle_secrete_longue
 ```
 
 Adapte les valeurs à ta configuration MySQL. Le fichier `.env` est ignoré par
 Git et ne doit pas contenir de secrets partagés.
+
+`JWT_SECRET_KEY` doit être une valeur aléatoire longue et privée. Elle sert à
+signer les tokens d'authentification.
 
 ## Structure du projet
 
@@ -80,16 +84,18 @@ FastAPI sont disponibles pour ces deux ressources.
 | Méthode | Endpoint | Description |
 | --- | --- | --- |
 | GET | `/health` | Vérifier que l'API fonctionne |
-| GET | `/utilisateurs` | Lister les utilisateurs |
-| GET | `/utilisateurs/{id}` | Obtenir un utilisateur |
-| POST | `/utilisateurs` | Créer un utilisateur |
-| PUT | `/utilisateurs/{id}` | Remplacer un utilisateur |
-| DELETE | `/utilisateurs/{id}` | Supprimer un utilisateur |
-| GET | `/livres` | Lister les livres |
-| GET | `/livres/{id}` | Obtenir un livre |
-| POST | `/livres` | Créer un livre |
-| PUT | `/livres/{id}` | Remplacer un livre |
-| DELETE | `/livres/{id}` | Supprimer un livre |
+| GET | `/utilisateurs` | Lister les utilisateurs (authentifié) |
+| GET | `/utilisateurs/{id}` | Obtenir un utilisateur (authentifié) |
+| POST | `/utilisateurs` | Créer un utilisateur (authentifié) |
+| PUT | `/utilisateurs/{id}` | Remplacer un utilisateur (authentifié) |
+| DELETE | `/utilisateurs/{id}` | Supprimer un utilisateur (authentifié) |
+| GET | `/livres` | Lister les livres (authentifié) |
+| GET | `/livres/{id}` | Obtenir un livre (authentifié) |
+| POST | `/livres` | Créer un livre (authentifié) |
+| PUT | `/livres/{id}` | Remplacer un livre (authentifié) |
+| DELETE | `/livres/{id}` | Supprimer un livre (authentifié) |
+| POST | `/auth/login` | Obtenir un token JWT |
+| GET | `/auth/me` | Obtenir son profil (authentifié) |
 
 La documentation interactive est disponible sur `/docs` lorsque le serveur
 est lancé.
@@ -103,9 +109,9 @@ au format Argon2.
 
 ## Prochaines étapes
 
-1. définir les routes pour les utilisateurs et les livres ;
-2. configurer `app.main:app` ;
-3. ajouter les migrations et les tests ;
+1. ajouter des tests automatisés d'intégration ;
+2. mettre en place les migrations de schéma ;
+3. ajouter les rôles et permissions ;
 4. connecter les fonctionnalités métier restantes.
 
 ## Dépôt

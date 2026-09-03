@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .routers import livres, utilisateurs
+from .routers import auth, livres, utilisateurs
 
 app = FastAPI(
 	title="App Gestion Maison d Edition",
@@ -15,3 +15,4 @@ def health_check():
 
 app.include_router(utilisateurs.router)
 app.include_router(livres.router)
+app.include_router(auth.router)
