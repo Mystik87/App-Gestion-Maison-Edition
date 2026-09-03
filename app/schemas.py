@@ -52,9 +52,8 @@ class AuteurResponse(AuteurBase):
 
 class LivreBase(BaseModel):
     titre: str
-    isbn: Optional[str] = None
+    isbn: str
     prix: float
-    stock: int = 0
     description: Optional[str] = None
 
 

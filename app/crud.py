@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
@@ -32,9 +33,15 @@ def get_many(
 def create(
     db: Session,
     model: type[ModelType],
-    data: CreateSchemaType,
+    data: CreateSchemaType | dict[str, Any],
 ) -> ModelType:
-    values = data.model_dump() if hasattr(data, "model_dump") else data.dict()
+    values = (
+        data.model_dump()
+        if hasattr(data, "model_dump")
+        else data.dict()
+        if hasattr(data, "dict")
+        else data
+    )
     instance = model(**values)  # type: ignore[call-arg]
     db.add(instance)
     db.commit()
@@ -79,7 +86,9 @@ def create_utilisateur(
     db: Session,
     data: schemas.UtilisateurCreate,
 ) -> models.Utilisateur:
-    return create(db, models.Utilisateur, data)
+    values = data.model_dump()
+    values["date_creation"] = datetime.now()
+    return create(db, models.Utilisateur, values)
 
 
 def get_livre(db: Session, livre_id: int) -> models.Livre | None:
@@ -99,4 +108,8 @@ def create_livre(
     db: Session,
     data: schemas.LivreCreate,
 ) -> models.Livre:
-    return create(db, models.Livre, data)
+    values = data.model_dump()
+    values.pop("stock", None)
+    values["date_creation"] = datetime.now()
+    values["statut"] = "disponible"
+    return create(db, models.Livre, values)
