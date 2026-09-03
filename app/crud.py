@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
+from pwdlib import PasswordHash
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -9,6 +10,7 @@ from . import models, schemas
 
 ModelType = TypeVar("ModelType")
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
+password_hash = PasswordHash.recommended()
 
 
 def get_by_id(
@@ -87,6 +89,7 @@ def create_utilisateur(
     data: schemas.UtilisateurCreate,
 ) -> models.Utilisateur:
     values = data.model_dump()
+    values["mot_de_passe"] = password_hash.hash(values["mot_de_passe"])
     values["date_creation"] = datetime.now()
     return create(db, models.Utilisateur, values)
 
@@ -96,7 +99,9 @@ def update_utilisateur(
     utilisateur: models.Utilisateur,
     data: schemas.UtilisateurCreate,
 ) -> models.Utilisateur:
-    return update(db, utilisateur, data)
+    values = data.model_dump()
+    values["mot_de_passe"] = password_hash.hash(values["mot_de_passe"])
+    return update(db, utilisateur, values)
 
 
 def get_livre(db: Session, livre_id: int) -> models.Livre | None:

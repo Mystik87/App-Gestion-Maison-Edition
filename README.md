@@ -94,6 +94,13 @@ FastAPI sont disponibles pour ces deux ressources.
 La documentation interactive est disponible sur `/docs` lorsque le serveur
 est lancé.
 
+## Sécurité des mots de passe
+
+Les mots de passe sont hachés avec Argon2 via `pwdlib` avant leur enregistrement
+ou leur mise à jour. Ils ne sont jamais inclus dans les réponses de l'API.
+Les mots de passe existants dans la base ont été contrôlés et sont déjà hachés
+au format Argon2.
+
 ## Prochaines étapes
 
 1. définir les routes pour les utilisateurs et les livres ;
